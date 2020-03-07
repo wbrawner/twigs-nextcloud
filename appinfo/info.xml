@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>twigs</id>
+    <name>Twigs</name>
+    <summary>Twigs</summary>
+    <description><![CDATA[Twigs is meant to help you get your finances on track by helping you establish budgets and register expenses. You can also share your budgets with other users.]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="william@wbrawner.com" homepage="https://wbrawner.com">William Brawner</author>
+    <namespace>Twigs</namespace>
+    <category>tools</category>
+    <bugs>https://github.com/wbrawner/nextcloud-twigs/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="15" max-version="15"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Twigs</name>
+            <route>twigs.page.index</route>
+        </navigation>
+    </navigations>
+</info>

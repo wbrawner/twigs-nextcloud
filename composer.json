@@ -1,0 +1,15 @@
+{
+    "name": "Twigs",
+    "description": "Twigs",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "William Brawner"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}
