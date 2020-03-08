@@ -67,7 +67,7 @@ class BudgetController extends Controller
 	{
 		try {
 			$userPermission = $this->userPermissionMapper->find($id, $this->userId);
-			return new DataResponse($this->budgetMapper->find($userPermission->budgetId));
+			return new DataResponse($this->budgetMapper->find($userPermission->getBudgetId()));
 		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -94,7 +94,7 @@ class BudgetController extends Controller
 			$userPermission->setBudgetId($budget->getId());
 			$userPermission->setUserId($user);
 			$userPermission->setPermission($permission);
-			$userPermission = $this->userPermissionMapper->save($userPermission);
+			$userPermission = $this->userPermissionMapper->insert($userPermission);
 			array_push($userPermissions, $userPermission);
 		}
 		$budget->setUsers($userPermissions);
