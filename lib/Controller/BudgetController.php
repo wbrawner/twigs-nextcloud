@@ -12,6 +12,7 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 use \OCP\ILogger;
+use OCP\AppFramework\Http;
 
 class BudgetController extends Controller
 {
@@ -87,6 +88,7 @@ class BudgetController extends Controller
 		$budget->setDescription($description);
 		$budget = $this->budgetMapper->insert($budget);
 		$userPermissions = [];
+		$users[$this->userId] = UserPermission::PERMISSION_MANAGE;
 		foreach ($users as $user => $permission) {
 			$userPermission = new UserPermission();
 			$userPermission->setBudgetId($budget->getId());
@@ -116,6 +118,9 @@ class BudgetController extends Controller
 		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
+		if ($userPermission->getPermission() != UserPermission::PERMISSION_MANAGE) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
 		if ($name) {
 			$budget->setName($name);
 		}
@@ -126,6 +131,7 @@ class BudgetController extends Controller
 		if ($users) {
 			$this->userPermissionMapper->deleteAll($budget->id);
 			$userPermissions = [];
+			$users[$this->userId] = UserPermission::PERMISSION_MANAGE;
 			foreach ($users as $user => $permission) {
 				$userPermission = new UserPermission();
 				$userPermission->setBudgetId($budget->getId());
@@ -156,6 +162,9 @@ class BudgetController extends Controller
 			$budget = $this->budgetMapper->find($userPermission->getBudgetId());
 		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+		if ($userPermission->getPermission() != UserPermission::PERMISSION_MANAGE) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 		// Delete all user permissions for this budget
 		$this->userPermissionMapper->deleteAll($budget->getId());
