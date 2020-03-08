@@ -7,11 +7,11 @@ use OCP\AppFramework\Db\QBMapper;
 
 class UserPermissionMapper extends QBMapper
 {
-    public static $tableName = 'twigs_user_permissions';
+    public static $TABLE_NAME = 'twigs_user_permissions';
 
     public function __construct(IDbConnection $db)
     {
-        parent::__construct($db, UserPermissionMapper::$tableName, UserPermission::class);
+        parent::__construct($db, UserPermissionMapper::$TABLE_NAME, UserPermission::class);
     }
 
     public function find(int $budgetId, string $userId)
@@ -32,7 +32,6 @@ class UserPermissionMapper extends QBMapper
     public function findAll(string $userId)
     {
         $qb = $this->db->getQueryBuilder();
-
         $qb->select('*')
             ->from($this->getTableName())
             ->where(
@@ -42,9 +41,16 @@ class UserPermissionMapper extends QBMapper
         return $this->findEntities($qb);
     }
 
-    public function save(UserPermission $userPermission)
+    public function findAllByBudgetId(int $budgetId)
     {
-        return $this->insertOrUpdate($userPermission);
+        $qb = $this->db->getQueryBuilder();
+        $qb->select('*')
+            ->from($this->getTableName())
+            ->where(
+                $qb->expr()->eq('budget_id', $qb->createNamedParameter($budgetId))
+            );
+
+        return $this->findEntities($qb);
     }
 
     public function deleteAll(int $budgetId)

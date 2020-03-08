@@ -8,12 +8,12 @@ use OCP\AppFramework\Db\QBMapper;
 class CategoryMapper extends QBMapper
 {
 
-    public static $tableName = 'twigs_categories';
+    public static $TABLE_NAME = 'twigs_categories';
     protected $userPermissionMapper;
 
     public function __construct(IDbConnection $db, UserPermissionMapper $userPermissionMapper)
     {
-        parent::__construct($db, CategoryMapper::$tableName, Category::class);
+        parent::__construct($db, CategoryMapper::$TABLE_NAME, Category::class);
         $this->userPermissionMapper = $userPermissionMapper;
     }
 
@@ -50,14 +50,6 @@ class CategoryMapper extends QBMapper
     public function save(Category $category)
     {
         return $this->insertOrUpdate($category);
-    }
-
-    public function delete(int $categoryId)
-    {
-        $qb = $this->db->getQueryBuilder();
-        $qb->delete($this->getTableName())
-            ->where('id', $categoryId);
-        return $qb->execute();
     }
 
     public function deleteAll(int $budgetId)

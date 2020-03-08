@@ -8,11 +8,11 @@ use OCP\AppFramework\Db\QBMapper;
 class TransactionMapper extends QBMapper
 {
 
-    public static $tableName = 'twigs_transactions';
+    public static $TABLE_NAME = 'twigs_transactions';
 
     public function __construct(IDbConnection $db)
     {
-        parent::__construct($db, TransactionMapper::$tableName, Transaction::class);
+        parent::__construct($db, TransactionMapper::$TABLE_NAME, Transaction::class);
     }
 
     public function find(int $id, string $userId)
@@ -46,14 +46,6 @@ class TransactionMapper extends QBMapper
     public function save(Transaction $transaction)
     {
         return $this->insertOrUpdate($transaction);
-    }
-
-    public function delete(int $transactionId)
-    {
-        $qb = $this->db->getQueryBuilder();
-        $qb->delete($this->getTableName())
-            ->where('id', $transactionId);
-        return $qb->execute();
     }
 
     public function deleteAll(int $budgetId)

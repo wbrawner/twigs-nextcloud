@@ -17,7 +17,7 @@ class UserPermission extends Entity implements JsonSerializable {
 
     public function jsonSerialize() {
         return [
-            'userId' => $this->userId,
+            'user' => $this->userId,
             'permission' => $this->permission
         ];
     }
