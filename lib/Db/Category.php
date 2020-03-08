@@ -14,11 +14,11 @@ class Category extends Entity implements JsonSerializable {
 
     public function jsonSerialize() {
         return [
-            'id' => $this->id,
+            'id' => (int) $this->id,
             'name' => $this->name,
-            'amount' => $this->amount,
-            'expense' => $this->expense,
-            'budgetId' => $this->budgetId,
+            'amount' => (int) $this->amount,
+            'expense' => (bool) $this->expense,
+            'budgetId' => (int) $this->budgetId,
         ];
     }
 }

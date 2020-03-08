@@ -20,7 +20,7 @@ class Budget extends Entity implements JsonSerializable {
             );
         }
         return [
-            'id' => $this->id,
+            'id' => (int) $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'users' => $users

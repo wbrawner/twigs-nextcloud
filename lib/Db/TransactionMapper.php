@@ -15,7 +15,7 @@ class TransactionMapper extends QBMapper
         parent::__construct($db, TransactionMapper::$TABLE_NAME, Transaction::class);
     }
 
-    public function find(int $id, string $userId)
+    public function find(int $id)
     {
         $qb = $this->db->getQueryBuilder();
 
@@ -23,29 +23,28 @@ class TransactionMapper extends QBMapper
             ->from($this->getTableName())
             ->where(
                 $qb->expr()->eq('id', $qb->createNamedParameter($id))
-            )->andWhere(
-                $qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
             );
 
         return $this->findEntity($qb);
     }
 
-    public function findAll(string $userId)
+    public function findAll(int $budgetId, ?int $categoryId)
     {
         $qb = $this->db->getQueryBuilder();
 
         $qb->select('*')
             ->from($this->getTableName())
             ->where(
-                $qb->expr()->eq('user_id', $qb->createNamedParameter($userId))
+                $qb->expr()->eq('budget_id', $qb->createNamedParameter($budgetId))
             );
 
-        return $this->findEntities($qb);
-    }
+        if ($categoryId) {
+            $qb->andWhere(
+                $qb->expr()->eq('category_id', $qb->createNamedParameter($categoryId))
+            );
+        }
 
-    public function save(Transaction $transaction)
-    {
-        return $this->insertOrUpdate($transaction);
+        return $this->findEntities($qb);
     }
 
     public function deleteAll(int $budgetId)

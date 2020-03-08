@@ -82,11 +82,14 @@ class Version000001Date20200204101200 extends SimpleMigrationStep {
             $table->addColumn('amount', 'integer', [
                 'notnull' => true,
             ]);
+            $table->addColumn('date', 'datetime', [
+                'notnull' => true,
+            ]);
             $table->addColumn('created_date', 'datetime', [
                 'notnull' => true,
             ]);
             $table->addColumn('updated_date', 'datetime', [
-                'notnull' => true,
+                'notnull' => false,
             ]);
             $table->addColumn('expense', 'boolean', [
                 'notnull' => true,
