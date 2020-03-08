@@ -17,39 +17,28 @@ class CategoryMapper extends QBMapper
         $this->userPermissionMapper = $userPermissionMapper;
     }
 
-    public function find(int $id, string $userId)
+    public function find(int $id)
     {
-        $userPermission = $this->userPermissionMapper->find($id, $userId);
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
             ->from($this->getTableName())
             ->where(
-                $qb->expr()->eq('id', $qb->createNamedParameter($userPermission->budgetId))
+                $qb->expr()->eq('id', $qb->createNamedParameter($id))
             );
 
         return $this->findEntity($qb);
     }
 
-    public function findAll(string $userId)
+    public function findAll(int $budgetId)
     {
-        $userPermissions = $this->userPermissionMapper->findAll($userId);
-        $budgets = [];
-        foreach ($userPermissions as $userPermission) {
-            array_push($budgets, $userPermission->budgetId);
-        }
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
             ->from($this->getTableName())
             ->where(
-                $qb->expr()->in('id', $budgets)
+                $qb->expr()->eq('budget_id', $qb->createNamedParameter($budgetId))
             );
 
         return $this->findEntities($qb);
-    }
-
-    public function save(Category $category)
-    {
-        return $this->insertOrUpdate($category);
     }
 
     public function deleteAll(int $budgetId)
