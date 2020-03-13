@@ -209,4 +209,83 @@ class TransactionController extends Controller
 		}
 		return new DataResponse($this->transactionMapper->delete($transaction));
 	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * @param int $budgetId
+	 * @param int $categoryId
+	 * @param string $startDate
+	 * @param string $endDate
+	 */
+	public function sum(
+		?int $budgetId,
+		?int $categoryId,
+		?string $startDate,
+		?string $endDate
+	) {
+		$startDateTime = null;
+		if ($startDate === null) {
+			$startDateTime = new DateTime();
+			$startDateTime->setDate(
+				$startDateTime->format('Y'),
+				$startDateTime->format('m'),
+				1
+			);
+			$startDateTime->setTime(0, 0, 0, 0);
+		} else {
+			$startDateTime = DateTime::createFromFormat(DateTime::ATOM, $startDate);
+		}
+		if (!$startDateTime) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+		$endDateTime = null;
+		if ($endDate === null) {
+			$endDateTime = new DateTime();
+			$endDateTime->setDate(
+				$endDateTime->format('Y'),
+				$endDateTime->format('m'),
+				$endDateTime->format('t'),
+			);
+			$endDateTime->setTime(23, 59, 59, 999);
+		} else {
+			$endDateTime = DateTime::createFromFormat(DateTime::ATOM, $endDate);
+		}
+		if (!$endDateTime) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+		if ($budgetId != null) {
+			try {
+				$this->userPermissionMapper->find($budgetId, $this->userId);
+			} catch (Exception $e) {
+				return new DataResponse([], Http::STATUS_NOT_FOUND);
+			}
+			return new DataResponse([
+				'budgetId' => $budgetId,
+				'sum' => $this->transactionMapper->sumByBudgetId(
+					$budgetId,
+					$startDateTime->getTimestamp(),
+					$endDateTime->getTimestamp()
+				)
+			], Http::STATUS_OK);
+		}
+		if ($categoryId != null) {
+			try {
+				$category = $this->categoryMapper->find($categoryId);
+				$this->userPermissionMapper->find($category->getBudgetId(), $this->userId);
+			} catch (Exception $e) {
+				return new DataResponse([], Http::STATUS_NOT_FOUND);
+			}
+			return new DataResponse([
+				'categoryId' => $categoryId,
+				'sum' => $this->transactionMapper->sumByCategoryId(
+					$categoryId,
+					$startDateTime->getTimestamp(),
+					$endDateTime->getTimestamp()
+				)
+			], Http::STATUS_OK);
+		}
+		return new DataResponse([], Http::STATUS_BAD_REQUEST);
+	}
 }
