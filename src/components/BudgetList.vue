@@ -1,6 +1,11 @@
 <template>
   <div>
-    <AppNavigationItem v-for="budget in budgets" :key="budget.id" :title="budget.name" v-on:click="view(budget.id)"></AppNavigationItem>
+    <AppNavigationItem
+      v-for="budget in budgets"
+      :key="budget.id"
+      :title="budget.name"
+      v-on:click="view(budget.id)"
+    ></AppNavigationItem>
     <AppNavigationNew text="New Budget"></AppNavigationNew>
   </div>
 </template>
@@ -13,18 +18,22 @@ export default {
   name: "budget-list",
   components: {
     AppNavigationItem,
-    AppNavigationNew
+    AppNavigationNew,
   },
   computed: {
     ...mapGetters(["budgets"])
   },
   methods: {
-    view: function(id) {
-			this.$router.push({ name: 'budgetDetails', params: { id: id } })
+    load: function() {
+      this.$store.dispatch('budgetListViewed')
     },
-    new: function() {
-
-    }
+    view: function(id) {
+      this.$router.push({ name: "budgetDetails", params: { id: id } })
+    },
+    new: function() {}
+  },
+  mounted() {
+    this.load()
   }
 };
 </script>
