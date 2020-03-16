@@ -91,8 +91,9 @@ export default new Vuex.Store({
         addTransactionClicked({ commit }) {
             router.push({ name: "newTransaction" })
         },
-        addEditTransactionViewed({ commit, state, getters }, transactionId) {
-            if (transactionId && getters.transaction(transactionId) === undefined) {
+        editTransactionViewed({ commit, state, getters }, transactionId) {
+            commit('setCurrentTransaction', transactionId)
+            if (transactionId !== undefined && getters.transaction === undefined) {
                 axios.get(OC.generateUrl(`/apps/twigs/api/v1.0/transactions/${transactionId}`))
                     .then((response) => {
                         commit('setTransactions', [response.data])

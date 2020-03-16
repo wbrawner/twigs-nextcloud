@@ -41,6 +41,6 @@ class Transaction extends Entity implements JsonSerializable {
         if (!$timestamp) return null;
         $datetime = new DateTime();
         $datetime->setTimestamp($timestamp);
-        return $datetime->format(DateTime::ATOM);
+        return $datetime->format(DateTime::RFC3339_EXTENDED);
     }
 }

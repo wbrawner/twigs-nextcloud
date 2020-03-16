@@ -2,8 +2,9 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import BudgetDetails from '../components/BudgetDetails'
 import CategoryDetails from '../components/CategoryDetails'
-import AddEditTransaction from '../components/AddEditTransaction'
-import TransactionDetails from '../components/TransactionDetails'
+import NewTransaction from '../components/transaction/NewTransaction'
+import EditTransaction from '../components/transaction/EditTransaction'
+import TransactionDetails from '../components/transaction/TransactionDetails'
 
 Vue.use(VueRouter)
 
@@ -21,7 +22,7 @@ const routes = [
     {
         path: '/transactions/new',
         name: 'newTransaction',
-        component: AddEditTransaction,
+        component: NewTransaction,
     },
     {
         path: '/transactions/:id',
@@ -31,7 +32,7 @@ const routes = [
     {
         path: '/transactions/:id/edit',
         name: 'editTransaction',
-        component: AddEditTransaction,
+        component: EditTransaction,
     },
 ]
 

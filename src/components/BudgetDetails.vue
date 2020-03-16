@@ -37,7 +37,7 @@ import { mapGetters, mapState } from "vuex";
 import { Actions } from "@nextcloud/vue/dist/Components/Actions";
 import { ActionButton } from "@nextcloud/vue/dist/Components/ActionButton";
 import CategoryList from "./CategoryList";
-import TransactionList from "./TransactionList";
+import TransactionList from "./transaction/TransactionList";
 
 export default {
   name: "budget-details",

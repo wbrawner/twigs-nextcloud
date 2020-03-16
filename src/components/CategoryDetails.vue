@@ -8,7 +8,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
-import TransactionList from './TransactionList'
+import TransactionList from './transaction/TransactionList'
 
 export default {
   name: "category-details",

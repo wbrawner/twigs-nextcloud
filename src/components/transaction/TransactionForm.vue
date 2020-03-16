@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!loading && transaction" class="add-edit-transaction">
+    <div v-if="!loading" class="add-edit-transaction">
       <h2>{{ transaction.id ? 'Edit' : 'Add' }} Transaction</h2>
       <input v-model="transaction.name" type="text" placeholder="Name" title="Name" />
       <textarea v-model="transaction.description" placeholder="Description" title="Description"></textarea>
@@ -40,9 +40,11 @@ export default {
   },
   data: function() {
     return {
-      transaction: Object,
-      loading: true
+      saving: false
     };
+  },
+  props: {
+    transaction: Object
   },
   computed: {
     ...mapGetters(["budgets"]),
@@ -50,32 +52,27 @@ export default {
       return this.$store.getters.categories.filter(function(category) {
         return category.expense === state.transaction.expense;
       });
-    }
+    },
+    loading: state => state.transaction === undefined || state.saving
   },
   methods: {
     updateCategories() {
+      if (!this.transaction) return;
       this.$store.dispatch(
         "addEditTransactionBudgetSelected",
         this.transaction.budgetId
       );
     },
     saveTransaction() {
-        this.loading = true
-        this.$store.dispatch('addEditTransactionSaveClicked', this.transaction)
+      this.saving = true;
+      this.$store.dispatch("addEditTransactionSaveClicked", this.transaction);
     }
   },
   mounted() {
-    if (this.$route.params.id) {
-      this.transaction = this.$store.getters.transaction(this.$route.params.id);
-    } else {
-      this.transaction = {
-        date: new Date(),
-        expense: true,
-        budgetId: this.$store.state.currentBudget,
-        categoryId: this.$store.state.currentCategory
-      };
+    let transactionId;
+    if (this.transaction) {
+      transactionId = this.transaction.id;
     }
-    this.loading = false;
     this.updateCategories();
   }
 };
@@ -95,6 +92,6 @@ export default {
   margin-right: 1em;
 }
 .icon-loading {
-    margin-top: 16px;
+  margin-top: 16px;
 }
 </style>
