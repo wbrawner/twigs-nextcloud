@@ -102,7 +102,7 @@ class TransactionMapper extends QBMapper
                 SELECT SUM(amount) 
                 FROM `*PREFIX*twigs_transactions`
                 WHERE category_id = ?
-                AND expense = 0
+                AND (expense = 0 OR expense = '')
                 AND date >= ?
                 AND date <= ?
             ), 0)) - (COALESCE((
