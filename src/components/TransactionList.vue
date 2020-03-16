@@ -19,26 +19,29 @@ import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "transaction-list",
-  components: {
-  },
+  components: {},
   props: {
     budgetId: Number,
     categoryId: Number,
+    limit: Number
   },
   computed: {
     ...mapState(["transactions", "currentTransaction"]),
     filteredTransactions: function(state) {
-      return state.transactions.filter(function(transaction) {
-        console.log(transaction.date)
-          if (state.budgetId) {
-            return transaction.budgetId === state.budgetId
-          }
-          if (state.categoryId) {
-            return transaction.categoryId === state.categoryId
-          }
-          return false
+      const transactions = state.transactions.filter(function(transaction) {
+        if (state.budgetId) {
+          return transaction.budgetId === state.budgetId;
         }
-      );
+        if (state.categoryId) {
+          return transaction.categoryId === state.categoryId;
+        }
+        return false;
+      });
+      if (this.limit) {
+        return transactions.slice(0, this.limit);
+      } else {
+        return transactions;
+      }
     }
   },
   methods: {

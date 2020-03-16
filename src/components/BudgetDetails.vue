@@ -27,7 +27,7 @@
       </div>
       <div class="card transactions">
         <h3>Recent Transactions</h3>
-        <TransactionList :budget-id="budget.id"></TransactionList>
+        <TransactionList :budget-id="budget.id" :limit="5"></TransactionList>
       </div>
     </div>
   </div>
