@@ -176,4 +176,14 @@ class BudgetController extends Controller
 		$this->budgetMapper->delete($budget);
 		return new DataResponse($budget);
 	}
+
+	public function stats(int $budgetId) {
+		try {
+			$userPermission = $this->userPermissionMapper->find($id, $this->userId);
+			$budget = $this->budgetMapper->find($userPermission->getBudgetId());
+		} catch (Exception $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+		
+	}
 }

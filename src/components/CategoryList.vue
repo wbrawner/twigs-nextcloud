@@ -1,29 +1,73 @@
 <template>
   <ul>
-    <li v-for="category in categories" :key="category.id">
-      <p>{{ category.name }}</p>
+    <li v-for="category in filteredCategories" :key="category.id">
+      <a v-on:click="view(category.id)" class="category-summary">
+        <div class="category-info">
+          <p class="category-name">{{ category.name }}</p>
+          <p
+            class="category-balance"
+          >{{ category.expense ? 'Remaining' : 'Pending' }}: {{ (categoryRemainingBalance(category) / 100).toLocaleString(undefined, {style: 'currency', currency: 'USD'}) }}</p>
+        </div>
+        <ProgressBar
+          :max="category.amount"
+          :value="Math.abs(categoryBalance(category.id))"
+          :invert-colors="!category.expense"
+        ></ProgressBar>
+      </a>
     </li>
   </ul>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
+import ProgressBar from "./ProgressBar";
 
 export default {
   name: "category-list",
-  components: {},
+  components: {
+    ProgressBar
+  },
   props: {
     budgetId: Number,
     expense: Boolean
   },
   computed: {
-    categories: function(state) {
-        const categories = this.$store.getters.categories(this.budgetId)
-        if (categories) {
-            return categories.filter(category => category.expense === this.expense)
-        } else {
-            return [];
-        }      
+    ...mapState(["categories", "currentCategory"]),
+    ...mapGetters(["categoryBalance", "categoryRemainingBalance"]),
+    filteredCategories: function(state) {
+      return state.categories.filter(
+        category => category.expense === this.expense
+      );
+    }
+  },
+  methods: {
+    view: function(id) {
+      this.$store.dispatch("categoryClicked", id);
     }
   }
 };
 </script>
+<style>
+.category-summary {
+  padding: 0.5em;
+  height: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  cursor: pointer;
+}
+
+.category-summary * {
+  cursor: pointer;
+}
+
+.category-summary:hover {
+  background: var(--color-background-hover);
+}
+
+.category-summary .category-info {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5em;
+}
+
+</style>

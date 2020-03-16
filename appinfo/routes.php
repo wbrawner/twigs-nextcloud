@@ -23,7 +23,7 @@ return [
         [
             'name' => 'transaction#sum',
             'url' => '/api/v1.0/transactions/sum',
-            'verb' => 'POST',
+            'verb' => 'GET',
         ]
     ]
 ];

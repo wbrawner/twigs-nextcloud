@@ -25,6 +25,8 @@ class TransactionController extends Controller
 	private $transactionMapper;
 	private $userPermissionMapper;
 	private $logger;
+	private $DATE_FORMAT = DateTime::RFC3339_EXTENDED;
+	private const DATE_FORMAT = "Y-m-d\TH:i:s.v\Z";
 
 	public function __construct(
 		$AppName,
@@ -49,16 +51,19 @@ class TransactionController extends Controller
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function index()
+	public function index(?int $budgetId, ?int $categoryId, ?int $count)
 	{
-		$budgetId = $_GET['budgetId'];
-		$categoryId = $_GET['categoryId'];
-		if ($budgetId == null) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
-		}
 		try {
-			$this->userPermissionMapper->find($budgetId, $this->userId);
-			return new DataResponse($this->transactionMapper->findAll($budgetId, $categoryId));
+			if ($budgetId != null) {
+				$this->userPermissionMapper->find($budgetId, $this->userId);
+			} else if ($categoryId != null) {
+				$category = $this->categoryMapper->find($categoryId);
+				$budgetId = $category->getBudgetId();
+				$this->userPermissionMapper->find($budgetId, $this->userId);
+			} else {
+				return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			}
+			return new DataResponse($this->transactionMapper->findAll($budgetId, $categoryId, $count));
 		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -95,7 +100,7 @@ class TransactionController extends Controller
 	 */
 	public function create(
 		string $name,
-		string $description,
+		?string $description,
 		int $amount,
 		string $date,
 		bool $expense,
@@ -115,9 +120,9 @@ class TransactionController extends Controller
 		$transaction->setDescription($description);
 		$transaction->setAmount($amount);
 		$transaction->setExpense($expense);
-		$dateTime = DateTime::createFromFormat(DateTime::ATOM, $date);
+		$dateTime = DateTime::createFromFormat($this->DATE_FORMAT, $date);
 		if (!$dateTime) {
-			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(["message" => "Invalid date format: '$date'"], Http::STATUS_BAD_REQUEST);
 		}
 		$transaction->setDate($dateTime->getTimestamp());
 		$this->logger->error("Setting category $categoryId for new transaction");
@@ -168,7 +173,7 @@ class TransactionController extends Controller
 		$transaction->setDescription($description);
 		$transaction->setAmount($amount);
 		$transaction->setExpense($expense);
-		$dateTime = DateTime::createFromFormat(DateTime::ATOM, $date);
+		$dateTime = DateTime::createFromFormat($this->DATE_FORMAT, $date);
 		if (!$dateTime) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -235,7 +240,7 @@ class TransactionController extends Controller
 			);
 			$startDateTime->setTime(0, 0, 0, 0);
 		} else {
-			$startDateTime = DateTime::createFromFormat(DateTime::ATOM, $startDate);
+			$startDateTime = DateTime::createFromFormat($this->DATE_FORMAT, $startDate);
 		}
 		if (!$startDateTime) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
@@ -250,7 +255,7 @@ class TransactionController extends Controller
 			);
 			$endDateTime->setTime(23, 59, 59, 999);
 		} else {
-			$endDateTime = DateTime::createFromFormat(DateTime::ATOM, $endDate);
+			$endDateTime = DateTime::createFromFormat($this->DATE_FORMAT, $endDate);
 		}
 		if (!$endDateTime) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

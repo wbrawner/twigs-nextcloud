@@ -1,5 +1,8 @@
 module.exports = {
-	extends: [
-		'nextcloud'
-	]
+    extends: [
+        'nextcloud'
+    ],
+    "rules": {
+        "indent": ["error", 4]
+    }
 };

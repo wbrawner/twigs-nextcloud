@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <ul>
+    <AppNavigationNew text="New Budget"></AppNavigationNew>
     <AppNavigationItem
       v-for="budget in budgets"
       :key="budget.id"
       :title="budget.name"
-      v-on:click="view(budget.id)"
-    ></AppNavigationItem>
-    <AppNavigationNew text="New Budget"></AppNavigationNew>
-  </div>
+      :to="{ name: 'budgetDetails', params: { id: budget.id } }"
+    />
+  </ul>
 </template>
 <script>
 import { AppNavigationItem } from "@nextcloud/vue/dist/Components/AppNavigationItem";
@@ -26,9 +26,6 @@ export default {
   methods: {
     load: function() {
       this.$store.dispatch('budgetListViewed')
-    },
-    view: function(id) {
-      this.$router.push({ name: "budgetDetails", params: { id: id } })
     },
     new: function() {}
   },

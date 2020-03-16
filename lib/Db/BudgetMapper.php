@@ -101,5 +101,5 @@ class BudgetMapper extends QBMapper
 		$qb->execute();
 
 		return $entity;
-	}
+    }
 }

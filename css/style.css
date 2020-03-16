@@ -1,3 +1,22 @@
-#hello {
-	color: red;
+:root {
+  --good-color: green;
+  --warn-color: yellow;
+  --danger-color: red;
+}
+
+h2, h3 {
+  margin: 0;
+  padding: 0.25em 0.5em;
+}
+
+.good {
+  color: var(--good-color);
+}
+
+.warn {
+  color: var(--warn-color);
+}
+
+.danger {
+  color: var(--danger-color);
 }

@@ -25,3 +25,13 @@ export default {
   },
 };
 </script>
+<style>
+.app-twigs {
+  flex-grow: 1;
+}
+
+.app-twigs > div {
+  width: 100%;
+}
+
+</style>

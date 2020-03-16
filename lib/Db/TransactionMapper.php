@@ -29,8 +29,11 @@ class TransactionMapper extends QBMapper
         return $this->findEntity($qb);
     }
 
-    public function findAll(int $budgetId, ?int $categoryId)
-    {
+    public function findAll(
+        int $budgetId,
+        ?int $categoryId,
+        ?int $count
+    ) {
         $qb = $this->db->getQueryBuilder();
 
         $qb->select('*')
@@ -43,6 +46,12 @@ class TransactionMapper extends QBMapper
             $qb->andWhere(
                 $qb->expr()->eq('category_id', $qb->createNamedParameter($categoryId))
             );
+        }
+
+        $qb->orderBy('date', 'desc');
+
+        if ($count) {
+            $qb->setMaxResults($count);
         }
 
         return $this->findEntities($qb);
@@ -114,5 +123,9 @@ class TransactionMapper extends QBMapper
         $statement->bindParam(6, $endDate);
         $statement->execute();
         return (int) $statement->fetch(FetchMode::COLUMN);
+    }
+
+    public function countByBudgetId(int $budgetId) {
+        
     }
 }
