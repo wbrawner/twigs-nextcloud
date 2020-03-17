@@ -19,7 +19,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../ProgressBar";
 
 export default {
   name: "category-list",

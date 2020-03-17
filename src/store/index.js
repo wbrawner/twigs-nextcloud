@@ -77,6 +77,18 @@ export default new Vuex.Store({
         categoryClicked({ commit }, categoryId) {
             router.push({ name: "categoryDetails", params: { id: categoryId } })
         },
+        addCategoryClicked({ commit }) {
+            router.push({ name: "newCategory" })
+        },
+        editCategoryViewed({ commit, state, getters }, categoryId) {
+            commit('setCurrentCategory', categoryId)
+            if (categoryId !== undefined && getters.category === undefined) {
+                axios.get(OC.generateUrl(`/apps/twigs/api/v1.0/categories/${categoryId}`))
+                    .then((response) => {
+                        commit('setCategories', [response.data])
+                    })
+            }
+        },
         categoryDetailsViewed({ commit, state }, categoryId) {
             commit('setCurrentCategory', categoryId)
             if (state.categories.length === 0) {
@@ -87,6 +99,18 @@ export default new Vuex.Store({
             }
             axios.get(OC.generateUrl(`/apps/twigs/api/v1.0/transactions?categoryId=${categoryId}`))
                 .then((response) => commit('setTransactions', response.data))
+        },
+        categoryFormSaveClicked({ commit }, category) {
+            let request;
+            if (category.id) {
+                request = axios.put(OC.generateUrl(`/apps/twigs/api/v1.0/categories/${category.id}`), category)
+            } else {
+                request = axios.post(OC.generateUrl(`/apps/twigs/api/v1.0/categories`), category)
+            }
+            request.then(response => {
+                commit('addCategory', response.data)
+                router.push({ name: "categoryDetails", params: { id: response.data.id } })
+            })
         },
         addTransactionClicked({ commit }) {
             router.push({ name: "newTransaction" })
@@ -108,7 +132,7 @@ export default new Vuex.Store({
                     commit('setCategories', response.data)
                 })
         },
-        addEditTransactionSaveClicked({ commit }, transaction) {
+        transactionFormSaveClicked({ commit }, transaction) {
             let request;
             if (transaction.id) {
                 request = axios.put(OC.generateUrl(`/apps/twigs/api/v1.0/transactions/${transaction.id}`), transaction)
@@ -161,6 +185,12 @@ export default new Vuex.Store({
         },
         setBudgets(state, budgets) {
             state.budgets = budgets
+        },
+        addCategory(state, category) {
+            state.categories = [
+                ...state.categories.filter(c => c.id !== category.id),
+                category
+            ]
         },
         setCurrentCategory(state, categoryId) {
             state.currentCategory = Number.parseInt(categoryId)

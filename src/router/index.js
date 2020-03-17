@@ -1,7 +1,9 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 import BudgetDetails from '../components/BudgetDetails'
-import CategoryDetails from '../components/CategoryDetails'
+import NewCategory from '../components/category/NewCategory'
+import EditCategory from '../components/category/EditCategory'
+import CategoryDetails from '../components/category/CategoryDetails'
 import NewTransaction from '../components/transaction/NewTransaction'
 import EditTransaction from '../components/transaction/EditTransaction'
 import TransactionDetails from '../components/transaction/TransactionDetails'
@@ -15,9 +17,19 @@ const routes = [
         component: BudgetDetails,
     },
     {
+        path: '/categories/new',
+        name: 'newCategory',
+        component: NewCategory,
+    },
+    {
         path: '/categories/:id',
         name: 'categoryDetails',
         component: CategoryDetails,
+    },
+    {
+        path: '/categories/:id/edit',
+        name: 'editCategory',
+        component: EditCategory,
     },
     {
         path: '/transactions/new',

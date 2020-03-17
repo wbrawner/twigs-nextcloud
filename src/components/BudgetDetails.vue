@@ -9,7 +9,7 @@
       </div>
       <div class="actions">
         <button @click="addTransaction()"><span class="icon-add"></span> Add Transaction</button>
-        <button><span class="icon-add"></span> Add Category</button>
+        <button @click="addCategory()"><span class="icon-add"></span> Add Category</button>
         <Actions>
           <ActionButton icon="icon-edit" text="Edit" @click="alert('Delete')">Edit</ActionButton>
           <ActionButton icon="icon-delete" text="Delete" @click="alert('Delete')">Delete</ActionButton>
@@ -36,7 +36,7 @@
 import { mapGetters, mapState } from "vuex";
 import { Actions } from "@nextcloud/vue/dist/Components/Actions";
 import { ActionButton } from "@nextcloud/vue/dist/Components/ActionButton";
-import CategoryList from "./CategoryList";
+import CategoryList from "./category/CategoryList";
 import TransactionList from "./transaction/TransactionList";
 
 export default {
@@ -68,7 +68,10 @@ export default {
     },
     addTransaction() {
       this.$store.dispatch('addTransactionClicked')
-    }
+    },
+    addCategory() {
+      this.$store.dispatch('addCategoryClicked')
+    },
   },
   mounted() {
     this.load();
