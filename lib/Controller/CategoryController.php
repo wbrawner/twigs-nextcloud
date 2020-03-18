@@ -88,7 +88,7 @@ class CategoryController extends Controller
 	 * @param int amount
 	 * @param bool expense
 	 */
-	public function create(string $name, int $amount, int $budgetId, bool $expense)
+	public function create(string $name, ?string $description, int $amount, int $budgetId, bool $expense)
 	{
 		try {
 			$userPermission = $this->userPermissionMapper->find($budgetId, $this->userId);
@@ -100,6 +100,7 @@ class CategoryController extends Controller
 		}
 		$category = new Category();
 		$category->setName($name);
+		$category->setDescription($description);
 		$category->setAmount($amount);
 		$category->setExpense($expense);
 		$category->setBudgetId($budgetId);
@@ -115,7 +116,7 @@ class CategoryController extends Controller
 	 * @param string $description
 	 * @param array $users
 	 */
-	public function update(int $id, string $name, string $description, int $amount, int $budgetId, bool $expense)
+	public function update(int $id, string $name, ?string $description, int $amount, int $budgetId, bool $expense)
 	{
 		try {
 			$category = $this->categoryMapper->find($id);

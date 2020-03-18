@@ -51,6 +51,10 @@ class Version000001Date20200204101200 extends SimpleMigrationStep {
                 'notnull' => true,
                 'length' => 200
             ]);
+            $table->addColumn('description', 'string', [
+                'notnull' => true,
+                'length' => 1000
+            ]);
             $table->addColumn('amount', 'integer', [
                 'notnull' => true,
             ]);
