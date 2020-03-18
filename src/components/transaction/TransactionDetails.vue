@@ -42,14 +42,14 @@ export default {
       if (!transaction || !transaction.categoryId) {
         return undefined;
       }
-      return this.$store.getters.category(transaction.categoryId)
+        return this.$store.getters.categories.find(category => category.id === transaction.categoryId)
     },
     budget: function(state) {
       const transaction = this.$store.getters.transaction
       if (!transaction || !transaction.budgetId) {
         return undefined;
       }
-      return this.$store.getters.budget(transaction.budgetId)
+        return this.$store.getters.budgets.find(budget => budget.id === transaction.budgetId)
     }
   },
   methods: {
