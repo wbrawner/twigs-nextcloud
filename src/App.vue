@@ -13,7 +13,7 @@
 import AppNavigation from "@nextcloud/vue/dist/Components/AppNavigation";
 import AppNavigationSettings from "@nextcloud/vue/dist/Components/AppNavigationSettings";
 import AppContent from "@nextcloud/vue/dist/Components/AppContent";
-import BudgetList from "./components/BudgetList";
+import BudgetList from "./components/budget/BudgetList";
 import axios from "@nextcloud/axios";
 
 export default {

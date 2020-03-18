@@ -18,12 +18,10 @@ export default new Vuex.Store({
     },
     getters: {
         budgets: (state) => state.budgets,
-        budget: (state) => (id) => state.budgets.find(budget => budget.id === id),
+        budget: (state) => state.budgets.find(budget => budget.id === state.currentBudget),
         budgetBalance: (state) => (id) => state.budgetBalances[id],
         categories: (state) => state.categories,
-        category: (state) => (id) => {
-            return state.categories.find(category => category.id === id)
-        },
+        category: (state) => state.categories.find(category => category.id === state.currentCategory),
         categoryBalance: (state) => (categoryId) => {
             return state.categoryBalances[categoryId];
         },
@@ -35,6 +33,9 @@ export default new Vuex.Store({
         transaction: (state) => state.transactions.find(transaction => transaction.id === state.currentTransaction),
     },
     actions: {
+        addBudgetClicked({ commit }) {
+            router.push({ name: "newBudget" })
+        },
         budgetListViewed({ commit }) {
             axios.get(OC.generateUrl('/apps/twigs/api/v1.0/budgets'))
                 .then(function (response) {
@@ -52,6 +53,27 @@ export default new Vuex.Store({
         },
         budgetClicked({ commit }, budgetId) {
             router.push({ name: "budgetDetails", params: { id: budgetId } })
+        },
+        editBudgetViewed({ commit, state, getters }, budgetId) {
+            commit('setCurrentBudget', budgetId)
+            if (budgetId !== undefined && getters.budget === undefined) {
+                axios.get(OC.generateUrl(`/apps/twigs/api/v1.0/budgets/${budgetId}`))
+                    .then((response) => {
+                        commit('setBudgets', [response.data])
+                    })
+            }
+        },
+        budgetFormSaveClicked({ commit }, budget) {
+            let request;
+            if (budget.id) {
+                request = axios.put(OC.generateUrl(`/apps/twigs/api/v1.0/budgets/${budget.id}`), budget)
+            } else {
+                request = axios.post(OC.generateUrl(`/apps/twigs/api/v1.0/budgets`), budget)
+            }
+            request.then(response => {
+                commit('addBudget', response.data)
+                router.push({ name: "budgetDetails", params: { id: response.data.id } })
+            })
         },
         budgetDetailsViewed({ commit }, budgetId) {
             commit('setCurrentBudget', budgetId)
@@ -74,11 +96,17 @@ export default new Vuex.Store({
             axios.get(OC.generateUrl(`/apps/twigs/api/v1.0/transactions?budgetId=${budgetId}?count=10`))
                 .then((response) => commit('setTransactions', response.data))
         },
+        editBudgetClicked({ commit }, budgetId) {
+            router.push({ name: "editBudget" , params: { id: budgetId } })
+        },
         categoryClicked({ commit }, categoryId) {
             router.push({ name: "categoryDetails", params: { id: categoryId } })
         },
         addCategoryClicked({ commit }) {
             router.push({ name: "newCategory" })
+        },
+        editCategoryClicked({ commit }, categoryId) {
+            router.push({ name: "editCategory" , params: { id: categoryId } })
         },
         editCategoryViewed({ commit, state, getters }, categoryId) {
             commit('setCurrentCategory', categoryId)
@@ -174,6 +202,12 @@ export default new Vuex.Store({
         },
     },
     mutations: {
+        addBudget(state, budget) {
+            state.budgets = [
+                ...state.budgets.filter(b => b.id !== budget.id),
+                budget
+            ]
+        },
         setCurrentBudget(state, budgetId) {
             state.currentBudget = Number.parseInt(budgetId)
         },

@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <AppNavigationNew text="New Budget"></AppNavigationNew>
+    <AppNavigationNew text="New Budget" @click="newBudget()"></AppNavigationNew>
     <AppNavigationItem
       v-for="budget in budgets"
       :key="budget.id"
@@ -27,7 +27,9 @@ export default {
     load: function() {
       this.$store.dispatch('budgetListViewed')
     },
-    new: function() {}
+      newBudget: function() {
+          this.$store.dispatch('addBudgetClicked')
+      }
   },
   mounted() {
     this.load()
