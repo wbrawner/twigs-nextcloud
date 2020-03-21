@@ -1,35 +1,40 @@
 <template>
-    <div v-if="budget">
-        <div class="header">
-            <div class="header-info">
-                <h2>{{ budget.name }}</h2>
-                <p>{{ budget.description }}</p>
-                <h3
-                    v-if="balance"
-                    >Balance: {{ balance.toLocaleString(undefined, {style: 'currency', currency: 'USD'}) }}</h3>
+    <div>
+        <div v-if="budget" class="budget">
+            <div class="header">
+                <div class="header-info">
+                    <h2>{{ budget.name }}</h2>
+                    <p>{{ budget.description }}</p>
+                    <h3
+                        v-if="balance"
+                        >Balance: {{ balance.toLocaleString(undefined, {style: 'currency', currency: 'USD'}) }}</h3>
+                </div>
+                <div class="actions">
+                    <button @click="addTransaction()"><span class="icon-add"></span> Add Transaction</button>
+                    <button @click="addCategory()"><span class="icon-add"></span> Add Category</button>
+                    <Actions>
+                    <ActionButton icon="icon-edit" text="Edit" @click="editBudget()">Edit</ActionButton>
+                    <ActionButton icon="icon-delete" text="Delete" @click="deleteBudget()">Delete</ActionButton>
+                    </Actions>
+                </div>
             </div>
-            <div class="actions">
-                <button @click="addTransaction()"><span class="icon-add"></span> Add Transaction</button>
-                <button @click="addCategory()"><span class="icon-add"></span> Add Category</button>
-                <Actions>
-                <ActionButton icon="icon-edit" text="Edit" @click="editBudget()">Edit</ActionButton>
-                <ActionButton icon="icon-delete" text="Delete" @click="alert('Delete')">Delete</ActionButton>
-                </Actions>
+            <div class="budget-details">
+                <div class="card income">
+                    <h3>Income</h3>
+                    <CategoryList v-bind:budget-id="budget.id" v-bind:expense="false"></CategoryList>
+                </div>
+                <div class="card expenses">
+                    <h3>Expenses</h3>
+                    <CategoryList v-bind:budget-id="budget.id" v-bind:expense="true"></CategoryList>
+                </div>
+                <div class="card transactions">
+                    <h3>Recent Transactions</h3>
+                    <TransactionList :budget-id="budget.id" :limit="5"></TransactionList>
+                </div>
             </div>
         </div>
-        <div class="budget-details">
-            <div class="card income">
-                <h3>Income</h3>
-                <CategoryList v-bind:budget-id="budget.id" v-bind:expense="false"></CategoryList>
-            </div>
-            <div class="card expenses">
-                <h3>Expenses</h3>
-                <CategoryList v-bind:budget-id="budget.id" v-bind:expense="true"></CategoryList>
-            </div>
-            <div class="card transactions">
-                <h3>Recent Transactions</h3>
-                <TransactionList :budget-id="budget.id" :limit="5"></TransactionList>
-            </div>
+        <div v-if="!budget">
+            <p>Select a budget from the list to the left to get started.</p>
         </div>
     </div>
 </template>
@@ -70,6 +75,9 @@ export default {
         },
         editBudget() {
             this.$store.dispatch('editBudgetClicked', this.$route.params.id);
+        },
+        deleteBudget() {
+            this.$store.dispatch('deleteBudgetClicked', this.$route.params.id);
         }
     },
     mounted() {

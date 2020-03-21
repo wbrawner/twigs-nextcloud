@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
+import TwigsHome from '../components/TwigsHome'
 import NewBudget from '../components/budget/NewBudget'
 import EditBudget from '../components/budget/EditBudget'
 import BudgetDetails from '../components/budget/BudgetDetails'
@@ -13,6 +14,11 @@ import TransactionDetails from '../components/transaction/TransactionDetails'
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path: '/',
+        name: 'home',
+        component: TwigsHome,
+    },
     {
         path: '/budgets/new',
         name: 'newBudget',

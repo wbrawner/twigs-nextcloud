@@ -78,10 +78,10 @@ class BudgetController extends Controller
 	 * @NoCSRFRequired
 	 *
 	 * @param string $name
-	 * @param string $description
+	 * @param ?string $description
 	 * @param array $users
 	 */
-	public function create(string $name, string $description, array $users)
+	public function create(string $name, ?string $description, array $users)
 	{
 		$budget = new Budget();
 		$budget->setName($name);
@@ -184,6 +184,5 @@ class BudgetController extends Controller
 		} catch (Exception $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
-		
 	}
 }

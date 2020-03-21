@@ -99,6 +99,13 @@ export default new Vuex.Store({
         editBudgetClicked({ commit }, budgetId) {
             router.push({ name: "editBudget" , params: { id: budgetId } })
         },
+        deleteBudgetClicked({ commit }, budgetId) {
+            axios.delete(OC.generateUrl(`/apps/twigs/api/v1.0/budgets/${budgetId}`))
+                .then((response) => {
+                    commit('deleteBudget', response.data)
+                    router.push({ name: "home" })
+                })
+        },
         categoryClicked({ commit }, categoryId) {
             router.push({ name: "categoryDetails", params: { id: categoryId } })
         },
@@ -219,6 +226,11 @@ export default new Vuex.Store({
         },
         setBudgets(state, budgets) {
             state.budgets = budgets
+        },
+        deleteBudget(state, budget) {
+            state.budgets = [
+                ...state.budgets.filter(b => b.id !== budget.id),
+            ]
         },
         addCategory(state, category) {
             state.categories = [
