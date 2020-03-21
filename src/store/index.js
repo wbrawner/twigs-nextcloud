@@ -147,6 +147,14 @@ export default new Vuex.Store({
                 router.push({ name: "categoryDetails", params: { id: response.data.id } })
             })
         },
+        deleteCategoryClicked({ commit, state }, categoryId) {
+            axios.delete(OC.generateUrl(`/apps/twigs/api/v1.0/categories/${categoryId}`))
+                .then((response) => {
+                    commit('setCurrentCategory', undefined)
+                    commit('deleteCategory', response.data)
+                    router.push({ name: "budgetDetails", params: { id: state.currentBudget } })
+                })
+        },
         addTransactionClicked({ commit }) {
             router.push({ name: "newTransaction" })
         },
@@ -249,6 +257,11 @@ export default new Vuex.Store({
                 ...state.categoryBalances,
                 [data.categoryId]: data.sum
             }
+        },
+        deleteCategory(state, category) {
+            state.categories = [
+                ...state.categories.filter(c => c.id !== category.id),
+            ]
         },
         addTransaction(state, transaction) {
             state.transactions = [
