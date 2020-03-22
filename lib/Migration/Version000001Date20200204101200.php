@@ -34,7 +34,7 @@ class Version000001Date20200204101200 extends SimpleMigrationStep {
                 'length' => 200
             ]);
             $table->addColumn('description', 'string', [
-                'notnull' => true,
+                'notnull' => false,
                 'length' => 1000,
             ]);
 

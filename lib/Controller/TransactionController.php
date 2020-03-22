@@ -25,8 +25,8 @@ class TransactionController extends Controller
 	private $transactionMapper;
 	private $userPermissionMapper;
 	private $logger;
-	private $DATE_FORMAT = DateTime::RFC3339_EXTENDED;
 	private const DATE_FORMAT = "Y-m-d\TH:i:s.v\Z";
+    private const AMOUNT_REGEX = "/^(([\d]{1,3}[\,\.]?)?([\d]{3}([\.\,])?)+([\.\,][\d]{2})?|[\d]+)$/";
 
 	public function __construct(
 		$AppName,
@@ -120,7 +120,7 @@ class TransactionController extends Controller
 		$transaction->setDescription($description);
 		$transaction->setAmount($amount);
 		$transaction->setExpense($expense);
-		$dateTime = DateTime::createFromFormat($this->DATE_FORMAT, $date);
+		$dateTime = DateTime::createFromFormat(self::DATE_FORMAT, $date);
 		if (!$dateTime) {
 			return new DataResponse(["message" => "Invalid date format: '$date'"], Http::STATUS_BAD_REQUEST);
 		}
@@ -173,7 +173,7 @@ class TransactionController extends Controller
 		$transaction->setDescription($description);
 		$transaction->setAmount($amount);
 		$transaction->setExpense($expense);
-		$dateTime = DateTime::createFromFormat($this->DATE_FORMAT, $date);
+		$dateTime = DateTime::createFromFormat(self::DATE_FORMAT, $date);
 		if (!$dateTime) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -240,7 +240,7 @@ class TransactionController extends Controller
 			);
 			$startDateTime->setTime(0, 0, 0, 0);
 		} else {
-			$startDateTime = DateTime::createFromFormat($this->DATE_FORMAT, $startDate);
+			$startDateTime = DateTime::createFromFormat(self::DATE_FORMAT, $startDate);
 		}
 		if (!$startDateTime) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
@@ -255,7 +255,7 @@ class TransactionController extends Controller
 			);
 			$endDateTime->setTime(23, 59, 59, 999);
 		} else {
-			$endDateTime = DateTime::createFromFormat($this->DATE_FORMAT, $endDate);
+			$endDateTime = DateTime::createFromFormat(self::DATE_FORMAT, $endDate);
 		}
 		if (!$endDateTime) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
