@@ -7,8 +7,14 @@
 export default {
     name: 'ProgressBar',
     props: {
-        value: Number,
-        max: Number,
+        value: {
+            type: Number,
+            default: 0,
+        },
+        max: {
+            type: Number,
+            default: 0,
+        },
         invertColors: Boolean,
     },
     computed: {

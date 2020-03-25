@@ -39,7 +39,10 @@ export default {
     components: {
     },
     props: {
-        budget: {},
+        budget: {
+            default: {},
+            type: () => {},
+        },
     },
     data: function() {
         return {
@@ -56,8 +59,8 @@ export default {
             this.user = undefined
             this.budget.users = this.budget.users.filter(u => u.user !== user)
             this.budget.users.push({
-                'user': user,
-                'permission': 2,
+                user: user,
+                permission: 2,
             })
         },
         saveBudget() {

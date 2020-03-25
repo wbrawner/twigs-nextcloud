@@ -4,8 +4,17 @@
 			<a class="category-summary" @click="view(category.id)">
 				<div class="category-info">
 					<p class="category-name">{{ category.name }}</p>
-					<p
-						class="category-balance">{{ category.expense ? 'Remaining' : 'Pending' }}: {{ (categoryRemainingBalance(category) / 100).toLocaleString(undefined, {style: 'currency', currency: 'USD'}) }}</p>
+					<p class="category-balance">
+						{{ category.expense ? "Remaining" : "Pending" }}:
+						{{
+							(
+								categoryRemainingBalance(category) / 100
+							).toLocaleString(undefined, {
+								style: "currency",
+								currency: "USD"
+							})
+						}}
+					</p>
 				</div>
 				<ProgressBar
 					:max="category.amount"
@@ -25,8 +34,14 @@ export default {
         ProgressBar,
     },
     props: {
-        budgetId: Number,
-        expense: Boolean,
+        budgetId: {
+            default: 0,
+            type: Number,
+        },
+        expense: {
+            default: true,
+            type: Boolean,
+        },
     },
     computed: {
         ...mapState(['categories', 'currentCategory']),
@@ -67,5 +82,4 @@ export default {
   justify-content: space-between;
   padding-bottom: 0.5em;
 }
-
 </style>

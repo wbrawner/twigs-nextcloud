@@ -20,9 +20,18 @@ export default {
     name: 'TransactionList',
     components: {},
     props: {
-        budgetId: 0,
-        categoryId: 0,
-        limit: 0,
+        budgetId: {
+            default: 0,
+            type: Number,
+        },
+        categoryId: {
+            default: 0,
+            type: Number,
+        },
+        limit: {
+            default: 0,
+            type: Number,
+        },
     },
     computed: {
         ...mapState(['transactions', 'currentTransaction']),

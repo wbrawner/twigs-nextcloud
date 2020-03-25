@@ -45,7 +45,10 @@ export default {
     components: {
     },
     props: {
-        category: Object,
+        category: {
+            default: () => {},
+            type: Object,
+        },
     },
     data: function() {
         return {

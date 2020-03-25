@@ -1,24 +1,31 @@
 <template>
 	<div>
 		<div v-if="!loading" class="add-edit-transaction">
-			<h2>{{ transaction.id ? 'Edit' : 'Add' }} Transaction</h2>
-			<input v-model="transaction.name"
+			<h2>{{ transaction.id ? "Edit" : "Add" }} Transaction</h2>
+			<input
+				v-model="transaction.name"
 				type="text"
 				placeholder="Name"
 				title="Name">
-			<textarea v-model="transaction.description" placeholder="Description" title="Description" />
-			<input v-model.number="transaction.amount"
+			<textarea
+				v-model="transaction.description"
+				placeholder="Description"
+				title="Description" />
+			<input
+				v-model.number="transaction.amount"
 				type="number"
 				placeholder="Amount"
 				title="Amount">
 			<DatetimePicker :value="transaction.date" type="datetime" />
 			<div class="radio-container">
-				<input id="expense"
+				<input
+					id="expense"
 					v-model="transaction.expense"
 					type="radio"
 					:value="true">
 				<label for="expense">Expense</label>
-				<input id="income"
+				<input
+					id="income"
 					v-model="transaction.expense"
 					type="radio"
 					:value="false">
@@ -29,7 +36,9 @@
 					Select a budget
 				</option>
 				<option v-for="budget in budgets" :key="budget.id" :value="budget.id">
-					{{ budget.name }}
+					{{
+						budget.name
+					}}
 				</option>
 			</select>
 			<select v-model="transaction.categoryId">
@@ -60,7 +69,10 @@ export default {
         DatetimePicker,
     },
     props: {
-        transaction: {},
+        transaction: {
+            default: () => {},
+            type: Object,
+        },
     },
     data: function() {
         return {
@@ -96,19 +108,19 @@ export default {
 </script>
 <style scoped>
 .add-edit-transaction > * {
-    display: block;
-    width: 100%;
-    max-width: 500px;
+  display: block;
+  width: 100%;
+  max-width: 500px;
 }
 .radio-container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .radio-container label {
-    margin-right: 1em;
+  margin-right: 1em;
 }
 .icon-loading {
-    margin-top: 16px;
+  margin-top: 16px;
 }
 </style>

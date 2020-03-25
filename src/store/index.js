@@ -68,7 +68,7 @@ export default new Vuex.Store({
             if (budget.id) {
                 request = axios.put(OC.generateUrl(`/apps/twigs/api/v1.0/budgets/${budget.id}`), budget)
             } else {
-                request = axios.post(OC.generateUrl(`/apps/twigs/api/v1.0/budgets`), budget)
+                request = axios.post(OC.generateUrl('/apps/twigs/api/v1.0/budgets'), budget)
             }
             request.then(response => {
                 commit('addBudget', response.data)
@@ -140,7 +140,7 @@ export default new Vuex.Store({
             if (category.id) {
                 request = axios.put(OC.generateUrl(`/apps/twigs/api/v1.0/categories/${category.id}`), category)
             } else {
-                request = axios.post(OC.generateUrl(`/apps/twigs/api/v1.0/categories`), category)
+                request = axios.post(OC.generateUrl('/apps/twigs/api/v1.0/categories'), category)
             }
             request.then(response => {
                 commit('addCategory', response.data)
@@ -180,7 +180,7 @@ export default new Vuex.Store({
             if (transaction.id) {
                 request = axios.put(OC.generateUrl(`/apps/twigs/api/v1.0/transactions/${transaction.id}`), transaction)
             } else {
-                request = axios.post(OC.generateUrl(`/apps/twigs/api/v1.0/transactions`), transaction)
+                request = axios.post(OC.generateUrl('/apps/twigs/api/v1.0/transactions'), transaction)
             }
             request.then(response => {
                 commit('addTransaction', response.data)
