@@ -1,20 +1,20 @@
 <template>
-    <CategoryForm :category="category" />
+	<CategoryForm :category="category" />
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import CategoryForm from './CategoryForm'
 
 export default {
-    name: 'edit-category',
+    name: 'EditCategory',
     components: {
-        CategoryForm
+        CategoryForm,
     },
     computed: {
-        ...mapGetters(['category'])
+        ...mapGetters(['category']),
     },
     mounted() {
-        this.$store.dispatch("editCategoryViewed", this.$route.params.id);
-    }
+        this.$store.dispatch('editCategoryViewed', this.$route.params.id)
+    },
 }
 </script>

@@ -1,55 +1,54 @@
 <template>
-  <ul>
-    <li v-for="transaction in filteredTransactions" :key="transaction.id">
-      <a v-on:click="view(transaction.id)" class="transaction">
-        <div class="transaction-details">
-          <p class="transaction-name">{{ transaction.name }}</p>
-          <p class="transaction-date">{{ new Date(transaction.date).toLocaleDateString() }}</p>
-        </div>
-        <p
-          class="transaction-amount"
-          :class="transaction.expense ? 'danger' : 'good'"
-        >{{ (transaction.amount / 100).toLocaleString(undefined, {style: 'currency', currency: 'USD'}) }}</p>
-      </a>
-    </li>
-  </ul>
+	<ul>
+		<li v-for="transaction in filteredTransactions" :key="transaction.id">
+			<a class="transaction" @click="view(transaction.id)">
+				<div class="transaction-details">
+					<p class="transaction-name">{{ transaction.name }}</p>
+					<p class="transaction-date">{{ new Date(transaction.date).toLocaleDateString() }}</p>
+				</div>
+				<p
+					class="transaction-amount"
+					:class="transaction.expense ? 'danger' : 'good'">{{ (transaction.amount / 100).toLocaleString(undefined, {style: 'currency', currency: 'USD'}) }}</p>
+			</a>
+		</li>
+	</ul>
 </template>
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapState } from 'vuex'
 
 export default {
-  name: "transaction-list",
-  components: {},
-  props: {
-    budgetId: Number,
-    categoryId: Number,
-    limit: Number
-  },
-  computed: {
-    ...mapState(["transactions", "currentTransaction"]),
-    filteredTransactions: function(state) {
-      const transactions = state.transactions.filter(function(transaction) {
-        if (state.budgetId) {
-          return transaction.budgetId === state.budgetId;
-        }
-        if (state.categoryId) {
-          return transaction.categoryId === state.categoryId;
-        }
-        return false;
-      });
-      if (this.limit) {
-        return transactions.slice(0, this.limit);
-      } else {
-        return transactions;
-      }
-    }
-  },
-  methods: {
-    view: function(id) {
-      this.$store.dispatch("transactionClicked", id);
-    }
-  }
-};
+    name: 'TransactionList',
+    components: {},
+    props: {
+        budgetId: 0,
+        categoryId: 0,
+        limit: 0,
+    },
+    computed: {
+        ...mapState(['transactions', 'currentTransaction']),
+        filteredTransactions: function(state) {
+            const transactions = state.transactions.filter(function(transaction) {
+                if (state.budgetId) {
+                    return transaction.budgetId === state.budgetId
+                }
+                if (state.categoryId) {
+                    return transaction.categoryId === state.categoryId
+                }
+                return false
+            })
+            if (this.limit !== 0) {
+                return transactions.slice(0, this.limit)
+            } else {
+                return transactions
+            }
+        },
+    },
+    methods: {
+        view: function(id) {
+            this.$store.dispatch('transactionClicked', id)
+        },
+    },
+}
 </script>
 <style>
 .transaction {

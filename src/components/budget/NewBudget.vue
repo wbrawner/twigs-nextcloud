@@ -1,20 +1,20 @@
 <template>
-    <BudgetForm :budget="budget" />
+	<BudgetForm :budget="budget" />
 </template>
 <script>
-import BudgetForm from "./BudgetForm";
+import BudgetForm from './BudgetForm'
 
 export default {
-    name: "new-budget",
+    name: 'NewBudget',
     components: {
-        BudgetForm
+        BudgetForm,
     },
     data: function() {
         return {
             budget: {
-                users: []
-            }
+                users: [],
+            },
         }
-    }
-};
+    },
+}
 </script>

@@ -1,23 +1,23 @@
 <template>
-  <TransactionForm :transaction="transaction" />
+	<TransactionForm :transaction="transaction" />
 </template>
 <script>
-import TransactionForm from "./TransactionForm";
+import TransactionForm from './TransactionForm'
 
 export default {
-  name: "new-transaction",
-  components: {
-    TransactionForm
-  },
-  data: function() {
-    return {
-      transaction: {
-        date: new Date(),
-        expense: true,
-        budgetId: this.$store.state.currentBudget,
-        categoryId: this.$store.state.currentCategory
-      }
-    };
-  }
-};
+    name: 'NewTransaction',
+    components: {
+        TransactionForm,
+    },
+    data: function() {
+        return {
+            transaction: {
+                date: new Date(),
+                expense: true,
+                budgetId: this.$store.state.currentBudget,
+                categoryId: this.$store.state.currentCategory,
+            },
+        }
+    },
+}
 </script>

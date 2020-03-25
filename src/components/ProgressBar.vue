@@ -1,37 +1,37 @@
 <template>
-  <div class="progress-bar">
-    <div class="progress" :class="status" :style="{ width: progress + '%' }"></div>
-  </div>
+	<div class="progress-bar">
+		<div class="progress" :class="status" :style="{ width: progress + '%' }" />
+	</div>
 </template>
 <script>
 export default {
-  name: "progress-bar",
-  props: {
-    value: Number,
-    max: Number,
-    invertColors: Boolean
-  },
-  computed: {
-    progress: function(state) {
-      return Math.round((this.value / this.max) * 100);
+    name: 'ProgressBar',
+    props: {
+        value: Number,
+        max: Number,
+        invertColors: Boolean,
     },
-    status: function(state) {
-      if (this.progress <= 33) {
-        return this.invertColors ? "danger" : "good";
-      }
+    computed: {
+        progress: function(state) {
+            return Math.round((this.value / this.max) * 100)
+        },
+        status: function(state) {
+            if (this.progress <= 33) {
+                return this.invertColors ? 'danger' : 'good'
+            }
 
-      if (this.progress <= 66) {
-        return "warn";
-      }
+            if (this.progress <= 66) {
+                return 'warn'
+            }
 
-      if (this.progress <= 100) {
-        return this.invertColors ? "good" : "danger";
-      }
+            if (this.progress <= 100) {
+                return this.invertColors ? 'good' : 'danger'
+            }
 
-      return "";
-    }
-  }
-};
+            return ''
+        },
+    },
+}
 </script>
 <style scoped>
 .progress-bar {

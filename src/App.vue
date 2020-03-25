@@ -1,29 +1,28 @@
 <template>
-  <div>
-    <AppNavigation>
-      <BudgetList></BudgetList>
-      <AppNavigationSettings></AppNavigationSettings>
-    </AppNavigation>
-    <AppContent>
-      <RouterView />
-    </AppContent>
-  </div>
+	<div>
+		<AppNavigation>
+			<BudgetList />
+			<AppNavigationSettings />
+		</AppNavigation>
+		<AppContent>
+			<RouterView />
+		</AppContent>
+	</div>
 </template>
 <script>
-import AppNavigation from "@nextcloud/vue/dist/Components/AppNavigation";
-import AppNavigationSettings from "@nextcloud/vue/dist/Components/AppNavigationSettings";
-import AppContent from "@nextcloud/vue/dist/Components/AppContent";
-import BudgetList from "./components/budget/BudgetList";
-import axios from "@nextcloud/axios";
+import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
+import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
+import AppContent from '@nextcloud/vue/dist/Components/AppContent'
+import BudgetList from './components/budget/BudgetList'
 
 export default {
-  components: {
-    AppNavigation,
-    AppNavigationSettings,
-    AppContent,
-    BudgetList,
-  },
-};
+    components: {
+        AppNavigation,
+        AppNavigationSettings,
+        AppContent,
+        BudgetList,
+    },
+}
 </script>
 <style>
 .app-twigs {

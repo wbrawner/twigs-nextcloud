@@ -1,50 +1,48 @@
 <template>
-  <ul>
-    <li v-for="category in filteredCategories" :key="category.id">
-      <a v-on:click="view(category.id)" class="category-summary">
-        <div class="category-info">
-          <p class="category-name">{{ category.name }}</p>
-          <p
-            class="category-balance"
-          >{{ category.expense ? 'Remaining' : 'Pending' }}: {{ (categoryRemainingBalance(category) / 100).toLocaleString(undefined, {style: 'currency', currency: 'USD'}) }}</p>
-        </div>
-        <ProgressBar
-          :max="category.amount"
-          :value="Math.abs(categoryBalance(category.id))"
-          :invert-colors="!category.expense"
-        ></ProgressBar>
-      </a>
-    </li>
-  </ul>
+	<ul>
+		<li v-for="category in filteredCategories" :key="category.id">
+			<a class="category-summary" @click="view(category.id)">
+				<div class="category-info">
+					<p class="category-name">{{ category.name }}</p>
+					<p
+						class="category-balance">{{ category.expense ? 'Remaining' : 'Pending' }}: {{ (categoryRemainingBalance(category) / 100).toLocaleString(undefined, {style: 'currency', currency: 'USD'}) }}</p>
+				</div>
+				<ProgressBar
+					:max="category.amount"
+					:value="Math.abs(categoryBalance(category.id))"
+					:invert-colors="!category.expense" />
+			</a>
+		</li>
+	</ul>
 </template>
 <script>
-import { mapGetters, mapState } from "vuex";
-import ProgressBar from "../ProgressBar";
+import { mapGetters, mapState } from 'vuex'
+import ProgressBar from '../ProgressBar'
 
 export default {
-  name: "category-list",
-  components: {
-    ProgressBar
-  },
-  props: {
-    budgetId: Number,
-    expense: Boolean
-  },
-  computed: {
-    ...mapState(["categories", "currentCategory"]),
-    ...mapGetters(["categoryBalance", "categoryRemainingBalance"]),
-    filteredCategories: function(state) {
-      return state.categories.filter(
-        category => category.expense === this.expense
-      );
-    }
-  },
-  methods: {
-    view: function(id) {
-      this.$store.dispatch("categoryClicked", id);
-    }
-  }
-};
+    name: 'CategoryList',
+    components: {
+        ProgressBar,
+    },
+    props: {
+        budgetId: Number,
+        expense: Boolean,
+    },
+    computed: {
+        ...mapState(['categories', 'currentCategory']),
+        ...mapGetters(['categoryBalance', 'categoryRemainingBalance']),
+        filteredCategories: function(state) {
+            return state.categories.filter(
+                category => category.expense === this.expense
+            )
+        },
+    },
+    methods: {
+        view: function(id) {
+            this.$store.dispatch('categoryClicked', id)
+        },
+    },
+}
 </script>
 <style>
 .category-summary {
