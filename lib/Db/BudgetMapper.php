@@ -9,7 +9,7 @@ use OCP\AppFramework\Db\QBMapper;
 class BudgetMapper extends QBMapper
 {
 
-    public static $TABLE_NAME = 'twigs_budgets';
+    public const TABLE_NAME = 'twigs_budgets';
     protected $categoryMapper;
     protected $transactionMapper;
     protected $userPermissionMapper;
@@ -20,7 +20,7 @@ class BudgetMapper extends QBMapper
         TransactionMapper $transactionMapper,
         UserPermissionMapper $userPermissionMapper
     ) {
-        parent::__construct($db, BudgetMapper::$TABLE_NAME, Budget::class);
+        parent::__construct($db, BudgetMapper::TABLE_NAME, Budget::class);
         $this->categoryMapper = $categoryMapper;
         $this->transactionMapper = $transactionMapper;
         $this->userPermissionMapper = $userPermissionMapper;

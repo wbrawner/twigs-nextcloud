@@ -7,11 +7,11 @@ use OCP\AppFramework\Db\QBMapper;
 
 class UserPermissionMapper extends QBMapper
 {
-    public static $TABLE_NAME = 'twigs_user_permissions';
+    public const TABLE_NAME = 'twigs_user_permissions';
 
     public function __construct(IDbConnection $db)
     {
-        parent::__construct($db, UserPermissionMapper::$TABLE_NAME, UserPermission::class);
+        parent::__construct($db, UserPermissionMapper::TABLE_NAME, UserPermission::class);
     }
 
     public function find(int $budgetId, string $userId)

@@ -5,14 +5,14 @@
     <name>Twigs</name>
     <summary>Twigs</summary>
     <description><![CDATA[Twigs is meant to help you get your finances on track by helping you establish budgets and register expenses. You can also share your budgets with other users.]]></description>
-    <version>0.0.1</version>
+    <version>0.1.1</version>
     <licence>agpl</licence>
     <author mail="william@wbrawner.com" homepage="https://wbrawner.com">William Brawner</author>
     <namespace>Twigs</namespace>
     <category>tools</category>
     <bugs>https://github.com/wbrawner/nextcloud-twigs/issues</bugs>
     <dependencies>
-        <nextcloud min-version="15" max-version="15"/>
+        <nextcloud min-version="15" max-version="18"/>
     </dependencies>
     <navigations>
         <navigation>

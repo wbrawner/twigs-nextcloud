@@ -23,8 +23,8 @@ class Version000001Date20200204101200 extends SimpleMigrationStep {
         /** @var ISchemaWrapper $schema */
         $schema = $schemaClosure();
 
-        if (!$schema->hasTable(BudgetMapper::$TABLE_NAME)) {
-            $table = $schema->createTable(BudgetMapper::$TABLE_NAME);
+        if (!$schema->hasTable(BudgetMapper::TABLE_NAME)) {
+            $table = $schema->createTable(BudgetMapper::TABLE_NAME);
             $table->addColumn('id', 'integer', [
                 'autoincrement' => true,
                 'notnull' => true,
@@ -41,8 +41,8 @@ class Version000001Date20200204101200 extends SimpleMigrationStep {
             $table->setPrimaryKey(['id']);
         }
 
-        if (!$schema->hasTable(CategoryMapper::$TABLE_NAME)) {
-            $table = $schema->createTable(CategoryMapper::$TABLE_NAME);
+        if (!$schema->hasTable(CategoryMapper::TABLE_NAME)) {
+            $table = $schema->createTable(CategoryMapper::TABLE_NAME);
             $table->addColumn('id', 'integer', [
                 'autoincrement' => true,
                 'notnull' => true,
@@ -66,11 +66,11 @@ class Version000001Date20200204101200 extends SimpleMigrationStep {
             ]);
 
             $table->setPrimaryKey(['id']);
-            $table->addForeignKeyConstraint(BudgetMapper::$TABLE_NAME, ['budget_id'], ['id']);
+            $table->addForeignKeyConstraint($schema->getTable(BudgetMapper::TABLE_NAME), ['budget_id'], ['id']);
         }
 
-        if (!$schema->hasTable(TransactionMapper::$TABLE_NAME)) {
-            $table = $schema->createTable(TransactionMapper::$TABLE_NAME);
+        if (!$schema->hasTable(TransactionMapper::TABLE_NAME)) {
+            $table = $schema->createTable(TransactionMapper::TABLE_NAME);
             $table->addColumn('id', 'integer', [
                 'autoincrement' => true,
                 'notnull' => true,
@@ -112,12 +112,12 @@ class Version000001Date20200204101200 extends SimpleMigrationStep {
             ]);
 
             $table->setPrimaryKey(['id']);
-            $table->addForeignKeyConstraint(BudgetMapper::$TABLE_NAME, ['budget_id'], ['id']);
-            $table->addForeignKeyConstraint(CategoryMapper::$TABLE_NAME, ['category_id'], ['id']);
+            $table->addForeignKeyConstraint($schema->getTable(BudgetMapper::TABLE_NAME), ['budget_id'], ['id']);
+            $table->addForeignKeyConstraint($schema->getTable(CategoryMapper::TABLE_NAME), ['category_id'], ['id']);
         }
 
-        if (!$schema->hasTable(UserPermissionMapper::$TABLE_NAME)) {
-            $table = $schema->createTable(UserPermissionMapper::$TABLE_NAME);
+        if (!$schema->hasTable(UserPermissionMapper::TABLE_NAME)) {
+            $table = $schema->createTable(UserPermissionMapper::TABLE_NAME);
             $table->addColumn('id', 'integer', [
                 'autoincrement' => true,
                 'notnull' => true,
@@ -134,8 +134,8 @@ class Version000001Date20200204101200 extends SimpleMigrationStep {
             ]);
 
             $table->setPrimaryKey(['id']);
-            $table->addForeignKeyConstraint(BudgetMapper::$TABLE_NAME, ['budget_id'], ['id']);
-            $table->addForeignKeyConstraint('oc_users', ['user_id'], ['uid']);
+            $table->addForeignKeyConstraint($schema->getTable(BudgetMapper::TABLE_NAME), ['budget_id'], ['id']);
+            $table->addForeignKeyConstraint($schema->getTable('users'), ['user_id'], ['uid']);
         }
 
         return $schema;

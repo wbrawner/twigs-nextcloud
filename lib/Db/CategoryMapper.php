@@ -8,12 +8,12 @@ use OCP\AppFramework\Db\QBMapper;
 class CategoryMapper extends QBMapper
 {
 
-    public static $TABLE_NAME = 'twigs_categories';
+    public const TABLE_NAME = 'twigs_categories';
     protected $userPermissionMapper;
 
     public function __construct(IDbConnection $db, UserPermissionMapper $userPermissionMapper)
     {
-        parent::__construct($db, CategoryMapper::$TABLE_NAME, Category::class);
+        parent::__construct($db, CategoryMapper::TABLE_NAME, Category::class);
         $this->userPermissionMapper = $userPermissionMapper;
     }
 

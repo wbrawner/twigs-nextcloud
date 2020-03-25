@@ -9,11 +9,11 @@ use OCP\AppFramework\Db\QBMapper;
 class TransactionMapper extends QBMapper
 {
 
-    public static $TABLE_NAME = 'twigs_transactions';
+    public const TABLE_NAME = 'twigs_transactions';
 
     public function __construct(IDbConnection $db)
     {
-        parent::__construct($db, TransactionMapper::$TABLE_NAME, Transaction::class);
+        parent::__construct($db, TransactionMapper::TABLE_NAME, Transaction::class);
     }
 
     public function find(int $id)
