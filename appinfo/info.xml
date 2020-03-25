@@ -5,7 +5,7 @@
     <name>Twigs</name>
     <summary>Twigs</summary>
     <description><![CDATA[Twigs is meant to help you get your finances on track by helping you establish budgets and register expenses. You can also share your budgets with other users.]]></description>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <licence>agpl</licence>
     <author mail="william@wbrawner.com" homepage="https://wbrawner.com">William Brawner</author>
     <namespace>Twigs</namespace>

@@ -102,7 +102,7 @@ class CategoryController extends Controller
 		$category->setName($name);
 		$category->setDescription($description);
 		$category->setAmount($amount);
-		$category->setExpense($expense);
+		$category->setExpense((int) $expense);
 		$category->setBudgetId($budgetId);
 		return new DataResponse($this->categoryMapper->insert($category));
 	}
@@ -137,7 +137,7 @@ class CategoryController extends Controller
 			$category->setAmount($amount);
 		}
 		if ($expense) {
-			$category->setExpense($expense);
+			$category->setExpense((int) $expense);
 		}
 		if ($budgetId) {
 			try {

@@ -119,7 +119,7 @@ class TransactionController extends Controller
 		$transaction->setName($name);
 		$transaction->setDescription($description);
 		$transaction->setAmount($amount);
-		$transaction->setExpense($expense);
+		$transaction->setExpense((int) $expense);
 		$dateTime = DateTime::createFromFormat(self::DATE_FORMAT, $date);
 		if (!$dateTime) {
 			return new DataResponse(["message" => "Invalid date format: '$date'"], Http::STATUS_BAD_REQUEST);
@@ -172,7 +172,7 @@ class TransactionController extends Controller
 		$transaction->setName($name);
 		$transaction->setDescription($description);
 		$transaction->setAmount($amount);
-		$transaction->setExpense($expense);
+		$transaction->setExpense((int) $expense);
 		$dateTime = DateTime::createFromFormat(self::DATE_FORMAT, $date);
 		if (!$dateTime) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
@@ -251,7 +251,7 @@ class TransactionController extends Controller
 			$endDateTime->setDate(
 				$endDateTime->format('Y'),
 				$endDateTime->format('m'),
-				$endDateTime->format('t'),
+				$endDateTime->format('t')
 			);
 			$endDateTime->setTime(23, 59, 59, 999);
 		} else {
