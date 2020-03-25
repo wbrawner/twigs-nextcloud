@@ -1,6 +1,5 @@
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
-const StyleLintPlugin = require('stylelint-webpack-plugin')
 const BundleAnalyzerPlugin = require('@bundle-analyzer/webpack-plugin')
 
 const config = {
@@ -16,10 +15,6 @@ const config = {
 			{
 				test: /\.css$/,
 				use: ['vue-style-loader', 'css-loader'],
-			},
-			{
-				test: /\.scss$/,
-				use: ['vue-style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
 				test: /\.(js|vue)$/,
@@ -41,7 +36,6 @@ const config = {
 	},
 	plugins: [
 		new VueLoaderPlugin(),
-		new StyleLintPlugin(),
 	],
 	resolve: {
 		extensions: ['*', '.js', '.vue'],
